@@ -28,28 +28,31 @@ class MealRepository : PanacheRepository<PersistableMeal>
 
 @Entity
 class PersistableMeal() : AbstractDAOType<Meal, PersistableMeal>() {
-    constructor(id: Long?, name: String, kcal: Int?, date: Instant, exercise: Boolean) : this() {
+    constructor(id: Long?, name: String, kcal: Int?, kcalExpression: String?, date: Instant, exercise: Boolean) : this() {
         this.setId(id)
         this.name = name
         this.kcal = kcal
+        this.kcalExpression = kcalExpression
         this.date = date
         this.exercise = exercise
     }
 
-    constructor(meal: Meal) : this(meal.id, meal.name, meal.kcal, meal.date, meal.exercise)
+    constructor(meal: Meal) : this(meal.id, meal.name, meal.kcal, meal.kcalExpression, meal.date, meal.exercise)
 
     lateinit var name: String
     var kcal: Int? = null
+    var kcalExpression: String? = null
     lateinit var date: Instant
     var exercise: Boolean = false
 
     override fun asBase(): Meal? {
-        return kcal?.let { Meal(getId(), name, it, date, exercise) }
+        return kcal?.let { Meal(getId(), name, it, kcalExpression, date, exercise) }
     }
 
     override fun setAll(source: Meal) {
         name = source.name
         kcal = source.kcal
+        kcalExpression = source.kcalExpression
         date = source.date
         exercise = source.exercise
     }

@@ -11,7 +11,7 @@ class MealResourceIntegrationTest {
     @Test
     @TestTransaction
     internal fun `meals are saved, meals are returned and are deletable`() {
-        val returnedId = utils.`post object and return its id`(MealWeb(null, "dd", 200, 1_600_000_000))
+        val returnedId = utils.`post object and return its id`(MealWeb(null, "dd", 200, null, 1_600_000_000))
 
         utils.`get object by id and check if field matches`(returnedId, "name", "dd")
 
@@ -28,9 +28,9 @@ class MealResourceIntegrationTest {
         utils.`get all objects and assert object is not found`("name", "bb")
 
 
-        val id = utils.`post object and return its id`(MealWeb(null, "aa", 200, 1_600_000_000))
+        val id = utils.`post object and return its id`(MealWeb(null, "aa", 200, null, 1_600_000_000))
         utils.`get all objects and assert object is found`("name", "aa") //just for verification meal gets inserted
-        utils.putObject(MealWeb(id, "bb", 250, 1_600_000_000))
+        utils.putObject(MealWeb(id, "bb", 250, null, 1_600_000_000))
 
         utils.`get all objects and assert object is found`("name", "bb")
 
@@ -43,8 +43,8 @@ class MealResourceIntegrationTest {
     @Test
     @TestTransaction
     internal fun `meals are filtered`() {
-        val id1 = utils.`post object and return its id`(MealWeb(null, "aa", 200, 1_600_000_000))
-        val id2 = utils.`post object and return its id`(MealWeb(null, "bb", 200, 1_600_001_000))
+        val id1 = utils.`post object and return its id`(MealWeb(null, "aa", 200, null, 1_600_000_000))
+        val id2 = utils.`post object and return its id`(MealWeb(null, "bb", 200, null, 1_600_001_000))
         utils.`get all objects and assert object is found`("name", "bb") //just for verification meal gets inserted
 
 

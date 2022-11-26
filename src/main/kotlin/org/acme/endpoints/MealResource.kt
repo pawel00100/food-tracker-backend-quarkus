@@ -56,10 +56,10 @@ class MealResource(val mealService: MealService) {
 }
 
 
-data class MealWeb(val id: Long?, val name: String, val kcal: Int, val date: Long, val exercise: Boolean = false) {
-    constructor(meal: Meal) : this(meal.id, meal.name, meal.kcal, meal.date.epochSecond, meal.exercise)
+data class MealWeb(val id: Long?, val name: String, val kcal: Int?, val kcalExpression: String?, val date: Long, val exercise: Boolean = false) {
+    constructor(meal: Meal) : this(meal.id, meal.name, meal.kcal, meal.kcalExpression, meal.date.epochSecond, meal.exercise)
 
-    fun asMeal() = Meal(id, name, kcal, Instant.ofEpochSecond(date), exercise)
+    fun asMeal() = Meal(id, name, kcal, kcalExpression, Instant.ofEpochSecond(date), exercise)
 }
 
 fun Meal.asMealWeb(): MealWeb = MealWeb(this)

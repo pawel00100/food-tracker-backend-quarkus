@@ -21,19 +21,19 @@ internal class MealServiceTest {
         justRun { mealDAO.delete(any()) }
         justRun { mealDAO.deleteById(any()) }
         every { mealDAO.getAll() } returns listOf(
-            Meal(1, "aa", 200, Instant.ofEpochSecond(1_600_000_000), false),
-            Meal(2, "bb", 500, Instant.ofEpochSecond(1_600_001_000), false)
+            Meal(1, "aa", 200, null, Instant.ofEpochSecond(1_600_000_000), false),
+            Meal(2, "bb", 500, null, Instant.ofEpochSecond(1_600_001_000), false)
         )
         every { mealDAO.getFiltered(any(), any()) } returns listOf(
-            Meal(1, "aa", 200, Instant.ofEpochSecond(1_600_000_000), false),
+            Meal(1, "aa", 200, null, Instant.ofEpochSecond(1_600_000_000), false),
         )
     }
 
     @Test
     fun getAll() {
         val meals = listOf(
-            Meal(null, "aa", 200, Instant.now()!!, false),
-            Meal(null, "bb", 500, Instant.now()!!, false)
+            Meal(null, "aa", 200, null, Instant.now()!!, false),
+            Meal(null, "bb", 500, null, Instant.now()!!, false)
         )
 
         meals.forEach { mealService.create(it) }
@@ -46,7 +46,7 @@ internal class MealServiceTest {
     @Test
     fun getFiltered() {
         val meals = listOf(
-            Meal(null, "aa", 200, Instant.now()!!, false),
+            Meal(null, "aa", 200, null, Instant.now()!!, false),
         )
 
         meals.forEach { mealService.create(it) }
@@ -58,14 +58,14 @@ internal class MealServiceTest {
 
     @Test
     fun create() {
-        val meal = Meal(null, "cc", 200, Instant.now()!!, false)
+        val meal = Meal(null, "cc", 200, null, Instant.now()!!, false)
 
         mealService.create(meal)
     }
 
     @Test
     fun delete() {
-        val meal = Meal(1, "aa", 200, Instant.ofEpochSecond(1_600_000_000)!!, false)
+        val meal = Meal(1, "aa", 200, null, Instant.ofEpochSecond(1_600_000_000)!!, false)
 
         mealService.delete(meal)
     }
