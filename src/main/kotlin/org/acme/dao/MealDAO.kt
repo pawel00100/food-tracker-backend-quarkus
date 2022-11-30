@@ -5,6 +5,7 @@ import org.acme.model.Meal
 import java.time.Instant
 import javax.enterprise.context.ApplicationScoped
 import javax.persistence.Entity
+import javax.persistence.Table
 import javax.transaction.Transactional
 
 interface MealDAO : AbstractDAO<Meal> {
@@ -27,6 +28,7 @@ class MealDAOImpl(mealRepository: MealRepository) : AbstractDAOImpl<PersistableM
 class MealRepository : PanacheRepository<PersistableMeal>
 
 @Entity
+@Table(name = "meal")
 class PersistableMeal() : AbstractDAOType<Meal, PersistableMeal>() {
     constructor(id: Long?, name: String, kcal: Int?, kcalExpression: String?, date: Instant, exercise: Boolean) : this() {
         this.setId(id)

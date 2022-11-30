@@ -64,14 +64,14 @@ abstract class AbstractDAOImpl<DAO_TYPE : AbstractDAOType<BASE_TYPE, DAO_TYPE>, 
     @Transactional
     override fun update(meal: BASE_TYPE) {
         if (meal.id == null) {
-            logger.error { "trying to update meal with id = null" }
+            logger.error { "trying to object meal with id = null" }
             return
         }
 
         val found = repository.findById(meal.id)
 
         if (found == null) {
-            logger.error { "trying to update meal that is not in db" }
+            logger.error { "trying to update object that is not in db" }
             return
         }
 

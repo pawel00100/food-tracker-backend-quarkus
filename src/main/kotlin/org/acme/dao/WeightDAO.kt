@@ -5,6 +5,7 @@ import org.acme.model.Weight
 import java.time.Instant
 import javax.enterprise.context.ApplicationScoped
 import javax.persistence.Entity
+import javax.persistence.Table
 import javax.transaction.Transactional
 
 interface WeightDAO : AbstractDAO<Weight> {
@@ -28,6 +29,7 @@ class WeightDAOImpl(weightRepository: WeightRepository) : AbstractDAOImpl<Persis
 class WeightRepository : PanacheRepository<PersistableWeight>
 
 @Entity
+@Table(name = "weight")
 class PersistableWeight() : AbstractDAOType<Weight, PersistableWeight>() {
     constructor(id: Long?, measurement: Float, date: Instant) : this() {
         this.setId(id)
