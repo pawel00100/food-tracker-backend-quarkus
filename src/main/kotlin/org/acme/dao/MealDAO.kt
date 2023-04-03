@@ -4,8 +4,7 @@ import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepository
 import org.acme.model.Meal
 import java.time.Instant
 import javax.enterprise.context.ApplicationScoped
-import javax.persistence.Entity
-import javax.persistence.Table
+import javax.persistence.*
 import javax.transaction.Transactional
 
 interface MealDAO : AbstractDAO<Meal> {
@@ -31,7 +30,7 @@ class MealRepository : PanacheRepository<PersistableMeal>
 @Table(name = "meal")
 class PersistableMeal() : AbstractDAOType<Meal, PersistableMeal>() {
     constructor(id: Long?, name: String, kcal: Int?, kcalExpression: String?, date: Instant, exercise: Boolean) : this() {
-        this.setId(id)
+        this.id = id
         this.name = name
         this.kcal = kcal
         this.kcalExpression = kcalExpression
@@ -41,6 +40,10 @@ class PersistableMeal() : AbstractDAOType<Meal, PersistableMeal>() {
 
     constructor(meal: Meal) : this(meal.id, meal.name, meal.kcal, meal.kcalExpression, meal.date, meal.exercise)
 
+    @Id
+    @SequenceGenerator(name = "meal_id_seq", sequenceName = "meal_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "meal_id_seq")
+    private var id: Long? = null
     lateinit var name: String
     var kcal: Int? = null
     var kcalExpression: String? = null
@@ -61,5 +64,11 @@ class PersistableMeal() : AbstractDAOType<Meal, PersistableMeal>() {
 
     override fun fromBase(base: Meal): PersistableMeal {
         return PersistableMeal(base)
+    }
+
+    override fun getId() = id
+
+    override fun setId(id: Long?) {
+        this.id = id
     }
 }

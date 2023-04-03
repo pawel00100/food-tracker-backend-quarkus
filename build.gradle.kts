@@ -31,6 +31,7 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured")
     testImplementation("org.hamcrest:hamcrest:2.2")
     testImplementation("io.rest-assured:kotlin-extensions:5.2.0")
+//    testImplementation("io.mockk:mockk:1.13.4")
     testImplementation("io.quarkiverse.mockk:quarkus-junit5-mockk:1.1.1")
     testImplementation("org.assertj:assertj-core:3.23.1")
 }
@@ -55,4 +56,9 @@ allOpen {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
     kotlinOptions.javaParameters = true
+}
+
+tasks.quarkusDev {
+    // Due to java.lang.NoClassDefFoundError: Could not initialize class io.mockk.impl.JvmMockKGateway at io.mockk.junit5.MockKExtension
+    jvmArgs = jvmArgs + "-Djdk.attach.allowAttachSelf"
 }

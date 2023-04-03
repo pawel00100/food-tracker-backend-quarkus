@@ -4,8 +4,7 @@ import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepository
 import org.acme.model.Weight
 import java.time.Instant
 import javax.enterprise.context.ApplicationScoped
-import javax.persistence.Entity
-import javax.persistence.Table
+import javax.persistence.*
 import javax.transaction.Transactional
 
 interface WeightDAO : AbstractDAO<Weight> {
@@ -39,6 +38,10 @@ class PersistableWeight() : AbstractDAOType<Weight, PersistableWeight>() {
 
     constructor(weight: Weight) : this(weight.id, weight.measurement, weight.date)
 
+    @Id
+    @SequenceGenerator(name = "weight_id_seq", sequenceName = "weight_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "weight_id_seq")
+    private var id: Long? = null
     var measurement: Float? = null
     lateinit var date: Instant
 
@@ -53,6 +56,12 @@ class PersistableWeight() : AbstractDAOType<Weight, PersistableWeight>() {
 
     override fun fromBase(base: Weight): PersistableWeight {
         return PersistableWeight(base)
+    }
+
+    override fun getId() = id
+
+    override fun setId(id: Long?) {
+        this.id = id
     }
 }
 
